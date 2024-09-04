@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tugas ibuk ari</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .box {
+            position: relative;
+            width: 80%;
+            height: 80%;
+            border: 5px solid red;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #movingText {
+            position: absolute;
+            font-size: 40px;
+            font-weight: bold;
+            color: red;
+        }
+
+        #wormText {
+            position: absolute;
+            font-size: 30px;
+            font-weight: bold;
+            color: blue;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <div id="movingText">Adni Saputra</div>
+    <div id="wormText">Arya Kirana</div>
+</div>
+
+<script>
+    const box = document.querySelector('.box');
+    const movingText = document.getElementById('movingText');
+    let posX1 = Math.random() * (box.clientWidth - movingText.offsetWidth);
+    let posY1 = Math.random() * (box.clientHeight - movingText.offsetHeight);
+    let speedX1 = 5;
+    let speedY1 = 5;
+
+    const wormText = document.getElementById('wormText');
+    let posX2 = Math.random() * (box.clientWidth - wormText.offsetWidth);
+    let posY2 = Math.random() * (box.clientHeight - wormText.offsetHeight);
+    let speedX2 = 3;
+    let speedY2 = 3;
+
+    function changeColor(element) {
+        const colors = ['red', 'green', 'blue', 'yellow', 'cyan', 'magenta'];
+        element.style.color = colors[Math.floor(Math.random() * colors.length)];
+    }
+
+    function moveText1() {
+        posX1 += speedX1;
+        posY1 += speedY1;
+
+        if (posX1 <= 0 || posX1 + movingText.offsetWidth >= box.clientWidth) {
+            speedX1 = -speedX1;
+            changeColor(movingText);
+        }
+
+        if (posY1 <= 0 || posY1 + movingText.offsetHeight >= box.clientHeight) {
+            speedY1 = -speedY1;
+            changeColor(movingText);
+        }
+
+        movingText.style.left = posX1 + 'px';
+        movingText.style.top = posY1 + 'px';
+
+        requestAnimationFrame(moveText1);
+    }
+
+    function moveText2() {
+        posX2 += speedX2;
+        posY2 += speedY2;
+
+        // Membuat teks muncul kembali dari sisi berlawanan jika keluar dari kotak
+        if (posX2 < -wormText.offsetWidth) {
+            posX2 = box.clientWidth;
+            changeColor(wormText); // Ubah warna saat keluar dan muncul kembali
+        } else if (posX2 > box.clientWidth) {
+            posX2 = -wormText.offsetWidth;
+            changeColor(wormText); // Ubah warna saat keluar dan muncul kembali
+        }
+
+        if (posY2 < -wormText.offsetHeight) {
+            posY2 = box.clientHeight;
+            changeColor(wormText); // Ubah warna saat keluar dan muncul kembali
+        } else if (posY2 > box.clientHeight) {
+            posY2 = -wormText.offsetHeight;
+            changeColor(wormText); // Ubah warna saat keluar dan muncul kembali
+        }
+
+        wormText.style.left = posX2 + 'px';
+        wormText.style.top = posY2 + 'px';
+
+        requestAnimationFrame(moveText2);
+    }
+
+    moveText1();
+    moveText2();
+</script>
+
+</body>
+</html>
